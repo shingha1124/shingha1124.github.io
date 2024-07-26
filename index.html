@@ -13,7 +13,7 @@
 </head>
 <body>
 
-    <h1>유니버셜 링크 테스트 페이지</h1>
+    <h1>유니버셜 링크 테스트</h1>
     
     <script>
         function getMobileOperatingSystem() {
@@ -37,16 +37,9 @@
             var query = window.location.search;
             var os = getMobileOperatingSystem();
             var universalLink = 'https://fingerlabs.github.io'+ pathname + query;
-            var storeLink;
+            var storeLink = 'https://itunes.apple.com/kr/app/apple-store/6444430778'
             
-            if (os === 'iOS') {
-                storeLink = 'https://itunes.apple.com/kr/app/apple-store/6444430778'
-            } else if (os === 'Android') {
-                storeLink = 'https://itunes.apple.com/kr/app/apple-store/6444430778'
-            } else {
-                alert('지원되지 않는 운영체제입니다.');
-                return;
-            }
+
             
             var iframe = document.createElement('iframe');
             iframe.style.display = 'none';
