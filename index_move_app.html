@@ -73,8 +73,14 @@
 
     <script>
         function launchApp() {
-            const schemeUrl = `hyperlifecare://${currentUrl.replace(/^https?:\/\//, '')}`; // scheme:// 형태로 변환
-            window.location.href = schemeUrl; // scheme URL로 리다이렉트 // 여기에 앱 실행 로직 추가
+            const params = new URLSearchParams(window.location.search); // URL 파라미터 파싱
+            const link = params.get('link'); // link 값 가져오기
+            if (link) {
+                const schemeUrl = `hyperlifecare://${link.replace(/^https?:\/\//, '')}`; // scheme:// 형태로 변환
+                window.location.href = schemeUrl; // 앱 스킴 실행
+            } else {
+                document.body.innerHTML = '<h1>Invalid Link</h1>'; // link 값이 없을 경우 처리
+            }
         }
     </script>
 </body>

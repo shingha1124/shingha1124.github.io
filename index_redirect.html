@@ -9,7 +9,23 @@
             const params = new URLSearchParams(window.location.search);
             const redirectUrl = params.get('link');
             if (redirectUrl) {
-                window.location.href = redirectUrl;
+                try {
+                    const urlObj = new URL(redirectUrl); // URL 객체 생성
+                    const domain = urlObj.origin; // 도메인 추출 (protocol + host)
+                    
+                    if (domain.includes("hyper-club")) {
+                        window.location.href = redirectUrl;
+                        // hyper-club 문자열이 포함된 경우
+                    } else {
+                        // hyper-club 문자열이 없는 경우
+                        const newUrl = `${domain}?link=${encodeURIComponent(redirectUrl)}`;
+                        window.location.href = newUrl;
+                    }
+                } catch (e) {
+                    // redirectUrl이 유효하지 않은 URL일 경우 예외 처리
+                    console.error("Invalid redirectUrl:", e);
+                    document.body.innerHTML = '<h1>Invalid Link</h1>';
+                }
             } else {
                 document.body.innerHTML = '<h1>Invalid Link</h1>';
             }
