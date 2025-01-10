@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta property="og:title" content="Welcome to My Website" />
+    <meta property="og:description" content="This is a brief description of my website." />
+    <meta property="og:image" content="https://example.com/image.jpg" />
+    <meta property="og:url" content="https://example.com" />
+    <meta property="og:type" content="website" />
+    
+    <title>HyperAppLink Redirecting</title>
+    <script type="module">
+        // 현재 URL에서 도메인과 경로 추출
+        const url = new URL(window.location.href);
+        const domain = url.hostname; // 도메인 추출 (예: 'toshi.devhand.net')
+        const urlParams = new URLSearchParams(url.search);
+        const paramKey = urlParams.get('key');
+        const paramLink = urlParams.get('link');
+        
+        if (paramKey != null) {
+            hasKey();
+        } else if (paramLink != null) {
+            hasLink();
+        } else {
+            document.getElementById('content').innerHTML = '잘못된 AppLink';
+        }
+        
+        function hasLink() {
+            const redirectUrl = new URL(paramLink);
+            const redirectPath = redirectUrl.pathname;
+            const redirectQuery = redirectUrl.search;
+
+            // baseUrl을 도메인만 사용하고, link 파라미터로 경로 및 쿼리 추가
+            const baseUrl = `https://${redirectUrl.hostname}`;
+            const newUrl = new URL(baseUrl);
+            newUrl.searchParams.set('link', redirectPath + redirectQuery);
+            window.location.href = newUrl.toString();
+        }
+        
+        function hasKey() {
+            console.log("hasKey");
+            
+            const host = 'dev-app-link.hyper-club.com';
+            fetch(`http://localhost:3000/get-data?host=${host}&key=${paramKey}`)  // 로컬 서버에 요청
+            .then(response => response.json())
+            .then(data => {
+                const redirectUrl = new URL(data.link);
+                const redirectPath = redirectUrl.pathname; // '/homeTab' 추출
+                const redirectQuery = redirectUrl.search; // '?query=test' 추출
+
+                // baseUrl을 도메인만 사용하고, link 파라미터로 경로 및 쿼리 추가
+                const baseUrl = `https://${redirectUrl.hostname}`; // 'https://shingha1124.github.io'
+                const newUrl = new URL(baseUrl);
+                newUrl.searchParams.set('link', redirectPath + redirectQuery);
+                window.location.href = newUrl.toString();
+            })
+            .catch(error => {
+                console.error('서버 호출 중 오류 발생:', error);
+            });
+        }
+    </script>
+</head>
+</html>
