@@ -39,11 +39,7 @@
         function hasKey() {
             console.log("hasKey");
             
-            fetch(`${apiDomain}?host=${host}&key=${paramKey}`, {
-                method: 'GET',
-                mode: 'no-cors', // CORS 우회 설정
-                
-            }) // 실제 API URL로 변경
+            fetch(`${apiDomain}?host=${host}&key=${paramKey}`) // 실제 API URL로 변경
               .then(response => {
                 if (!response.ok) {
                   throw new Error('네트워크 응답에 문제가 있습니다.');
