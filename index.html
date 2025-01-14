@@ -67,6 +67,11 @@
             ICON
         </div>
     </div>
+    
+    <div class="button-container">
+        <button class="button" onclick="installApp()">앱 설치하기</button>
+    </div>
+    
     <div class="button-container">
         <button class="button" onclick="launchApp()">앱 실행하기</button>
     </div>
@@ -99,7 +104,6 @@
         
         function launchApp() {
             if (link) {
-                // 앱 스킴에 link 값 전달
                 const appUrl = `hyperlifecare://hyperlifecare${link}`;
                 console.log(appUrl);
                 window.location.href = appUrl; // 앱 스킴을 사용해 앱 실행
