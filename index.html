@@ -72,14 +72,39 @@
     </div>
 
     <script>
-        function launchApp() {
-            const params = new URLSearchParams(window.location.search); // URL 파라미터 파싱
-            const link = params.get('link'); // link 값 가져오기
-            if (link) {
-                const schemeUrl = `hyperlifecare://${link.replace(/^https?:\/\//, '')}`; // scheme:// 형태로 변환
-                window.location.href = schemeUrl; // 앱 스킴 실행
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const link = urlParams.get('link'); // 'link' 파라미터 값 추출
+        
+        function isAndroid() {
+            return /android/i.test(navigator.userAgent);
+        }
+
+        function isIos() {
+            return /iphone|ipod|ipad/i.test(navigator.userAgent);
+        }
+        
+        function installApp() {
+            var androidMarketPath = "market://details?id=com.hyper.lifecare";
+            var iosMarketPath = "https://itunes.apple.com/kr/app/6738079246";
+            
+            if (isAndroid()) {
+                location.href = androidMarketPath;
+            } else if (isIos()) {
+                location.href = iosMarketPath;
             } else {
-                document.body.innerHTML = '<h1>Invalid Link</h1>'; // link 값이 없을 경우 처리
+                alert("지원되지 않는 장치입니다.");
+            }
+        }
+        
+        function launchApp() {
+            if (link) {
+                // 앱 스킴에 link 값 전달
+                const appUrl = `hyperlifecare://hyperlifecare${link}`;
+                console.log(appUrl);
+                window.location.href = appUrl; // 앱 스킴을 사용해 앱 실행
+            } else {
+                alert("No link parameter found!");
             }
         }
     </script>
